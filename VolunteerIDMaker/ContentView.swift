@@ -4,7 +4,6 @@
 //
 //  Created by Paul Inventado on 2/25/22.
 //
-
 import SwiftUI
 
 struct ContentView: View {
@@ -12,104 +11,106 @@ struct ContentView: View {
     @State var address: String = ""
     @State var age: String = ""
     var body: some View {
-        
+        // TODO: Enclose this entire VStack with GeometryReader in Model 3
         GeometryReader { geometry in
-            VStack {
-                
                 VStack {
-                    Text("SafeWalk Volunteer").modifier(SafeWalkText())
-                    HStack {
+                        // TODO: Add frame method call to this VStack in
+                        // Model 3
+                    VStack {
+                        Text("SafeWalk Volunteer").modifier(SafeWalkText())
+                            HStack {
+                                Spacer()
+                                Text("Name: ").modifier(SafeWalkLabel())
+                                TextField("Name", text: $name).modifier(SafeWalkTextField())
+                                Spacer()
+                            }
+                            HStack {
+                                Spacer()
+                                Text("Address: ").modifier(SafeWalkLabel())
+                                TextField("Address", text: $address).modifier(SafeWalkTextField())
+                                Spacer()
+                            }
+                            HStack {
+                                Spacer()
+                                Text("Age: ").modifier(SafeWalkLabel())
+                                TextField("Age", text: $age).modifier(SafeWalkTextField())
+                                Spacer()
+                            }
+                        }.frame(height: geometry.size.height / 2)
                         Spacer()
-                        Text("Name: ").modifier(SafeWalkLabel())
-                        TextField("Name", text: $name)
-                        
+                        /* TODO: Replace the entire Text VStack below with
+                           sub view provided in Model 2
+                         */
+                        VStack {
+                            Information(name: $name, address: $address, age: $age)
+                        }.modifier(SafeWalkIDText()).frame(height: geometry.size.height / 2)
                     }
-                    HStack {
-                        Spacer()
-                        Text("Address: ").modifier(SafeWalkLabel())
-                        TextField("Address", text: $address)
-                        Spacer()
-                    }
-                    HStack {
-                        Spacer()
-                        Text("Age: ").modifier(SafeWalkLabel())
-                        TextField("Age", text: $age)
-                        Spacer()
-                    }
-                }.frame(height: geometry.size.height / 3)
-                Spacer()
+                }
 
-                VStack {
-                    Information(name: $name, address: $address, age: $age)
-                }.modifier(SafeWalkID())
-        }
     }
 }
 
-
+// TODO: Add Information structure provided in Model 2
 struct Information: View {
     @Binding var name: String
     @Binding var address: String
     @Binding var age: String
     var body: some View {
-        HStack {
-            Text("SafeWalk Volunteer | California")
-        }
-        HStack {
-            Text("😄").font(.custom("Futura", size: 100)).background(.white)
-            VStack {
-                HStack {
-                    Text("Name: \(name)").bold()
-                }
-                HStack {
-                    Text("Address: \(address)").font(.custom("Futura", size: 18))
-                    }
-                HStack {
-                    Text("Age: \(age)")
-                }
-            }
-            Spacer()
-        }
+        Text("😄").font(.custom("Arial", size: 70))
+        Text(name)
+        Text(address)
+        Text(age)
     }
 }
-    
-    struct SafeWalkID: ViewModifier {
-        func body(content: Content) -> some View {
-            content
-                .font(.custom("Futura", size: 23))
-                .foregroundColor(.black)
-                .padding()
-                .background(.yellow)
-                .cornerRadius(20)
-        }
+
+// TODO: Add custom modifier below then use it to customizes your views for Model 5
+struct SafeWalkText: ViewModifier {
+   func body(content: Content) -> some View {
+        content
+           .font(.custom("Courier New", size: 30))
+           .foregroundColor(Color.white)
+           .padding()
+           .background(Color.black)
+           .cornerRadius(10)
     }
-    
-    struct SafeWalkText: ViewModifier {
-       func body(content: Content) -> some View {
-            content
-               .font(.custom("Courier New", size: 30))
-               .foregroundColor(Color.white)
-               .padding()
-               .background(Color.black)
-               .cornerRadius(10)
-        }
+}
+
+struct SafeWalkLabel: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .font(.custom("Futura Bold", size: 20))
+            .foregroundColor(Color.white)
+            .padding()
+            .background(Color.blue)
+            .cornerRadius(15)
     }
-    struct SafeWalkLabel: ViewModifier {
-        func body(content: Content) -> some View {
-            content
-                .font(.custom("Arial Black", size:20))
-                .foregroundColor(.indigo)
-                .padding()
-                .border(.black)
-                .background(.green)
-                .cornerRadius(15)
-        }
+}
+
+struct SafeWalkTextField: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .font(.custom("Chalkboard", size: 23))
+            .foregroundColor(Color.black)
+            .padding()
+            .background(Color.gray)
+            .cornerRadius(15)
     }
+}
+
+struct SafeWalkIDText: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .font(.custom("Arial", size: 25))
+            .foregroundColor(Color.black)
+            .padding()
+            .background(Color.yellow)
+            .cornerRadius(15)
+    }
+}
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
     }
-}
-
 }
