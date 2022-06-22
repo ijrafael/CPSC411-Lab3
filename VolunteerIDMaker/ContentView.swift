@@ -42,6 +42,7 @@ struct ContentView: View {
                            sub view provided in Model 2
                          */
                         VStack {
+                            Text("Safewalk ID | California").font(.custom("Futura Bold", size: 26))
                             Information(name: $name, address: $address, age: $age)
                         }.modifier(SafeWalkIDText()).frame(height: geometry.size.height / 2)
                     }
@@ -56,10 +57,17 @@ struct Information: View {
     @Binding var address: String
     @Binding var age: String
     var body: some View {
-        Text("😄").font(.custom("Arial", size: 70))
-        Text(name)
-        Text(address)
-        Text(age)
+        HStack {
+        Text("😄").font(.custom("Arial", size: 100)).background(Color.white)
+            VStack {
+                Text(name)
+                Text(address)
+                HStack {
+                    Text("Age:")
+                    Text(age)
+                }
+            }
+        }
     }
 }
 
